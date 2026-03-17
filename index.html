@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أكاديمية نوفل 2026 | النظام الذكي</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3a8a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #1e3a8a; --secondary: #0f172a; --accent: #b91c1c; --bg: #f8fafc; --text: #1e293b; --success: #059669; --gold: #d4af37; }
+        body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
+        #splashScreen { position: fixed; inset: 0; background: linear-gradient(135deg, var(--secondary), var(--primary)); z-index: 30000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: opacity 0.6s ease, transform 0.6s ease; }
+        #splashScreen h1 { font-size: 3rem; color: var(--gold); margin: 0 0 10px 0; text-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+        #splashScreen p { font-size: 1.5rem; margin: 0; opacity: 0.9; }
+        #studyOverlay, #groupAuthModal { position: fixed; inset: 0; z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
+        #studyOverlay { background: radial-gradient(circle, var(--primary), var(--secondary)); flex-direction: column; color: white; text-align: center; }
+        #groupAuthModal { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); }
+        .auth-card { background: #ffffff; padding: 35px 30px; border-radius: 25px; width: 100%; max-width: 350px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; border: 2px solid var(--gold); }
+        .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 12px; outline: none; font-family: inherit; box-sizing: border-box; background: #f8fafc; transition: 0.3s; font-size: 1rem; }
+        .auth-input:focus { border-color: var(--gold); background: #fff;}
+        .timer-val { font-size: 5rem; font-weight: 900; font-family: monospace; color: var(--gold); margin: 20px 0; text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .study-tip { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; border: 1px dashed var(--gold); margin-bottom: 30px; line-height: 1.6; max-width: 400px; }
+        .app-header { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; padding: 30px 25px 25px; text-align: center; border-radius: 0 0 35px 35px; border-bottom: 3px solid var(--gold); }
+        .card { background: white; border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .study-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
+        .study-box { background: linear-gradient(145deg, #ffffff, #fdfbf7); border-radius: 20px; padding: 20px; border: 1px solid #e2e8f0; border-top: 4px solid var(--gold); box-shadow: 0 8px 15px rgba(0,0,0,0.02); transition: 0.3s; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .study-box:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.06); }
+        .study-box h4 { margin: 0 0 10px 0; color: var(--primary); font-size: 1.25rem; display: flex; align-items: center; gap: 8px;}
+        .study-box p { margin: 0 0 15px 0; color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+        .category-title { color: var(--primary); border-bottom: 2px dashed var(--gold); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; display: inline-block; font-weight: 800; font-size: 1.2rem;}
+        .lesson-card { background: #f8fafc; border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid #e2e8f0; border-right: 4px solid var(--primary); transition: 0.3s; }
+        .lesson-card:hover { background: #fff; transform: translateX(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .lesson-card h4 { margin: 0 0 5px 0; color: var(--secondary); font-size: 1.05rem;}
+        .lesson-card p { font-size: 0.85rem; color: #64748b; margin: 0 0 12px 0; line-height: 1.5;}
+        .prayer-card { background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; border-radius: 20px; padding: 25px 20px; text-align: center; border: 2px solid var(--gold); margin-bottom: 25px; box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3); position: relative; }
+        .prayer-card::before { content: '🕊️'; font-size: 2rem; position: absolute; top: 10px; right: 20px; opacity: 0.8; }
+        .prayer-text { font-family: 'Amiri', serif; font-size: 1.3rem; line-height: 1.8; margin-top: 10px; }
+        details { background: #f8fafc; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #e2e8f0; transition: 0.3s; }
+        summary { font-weight: bold; cursor: pointer; color: var(--primary); font-size: 1.1rem; outline: none; display: flex; align-items: center; gap: 8px;}
+        details p { font-family: 'Amiri', serif; font-size: 1.1rem; line-height: 2; margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 15px; color: var(--secondary);}
+        .btn { padding: 12px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; font-family: inherit; font-size: 0.95rem;}
+        .btn-main { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2); }
+        .btn-main:hover { background: var(--secondary); }
+        .btn-lesson { background: #e2e8f0; color: var(--secondary); }
+        .btn-lesson:hover { background: var(--primary); color: white;}
+        #quranContainer { background: #fff; border: 2px solid var(--gold); border-radius: 15px; padding: 20px; max-height: 50vh; overflow-y: auto; margin-top: 15px; }
+        #quranText { font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 2.2; text-align: justify; }
+        .ayah-num { color: var(--gold); font-size: 1.2rem; margin: 0 5px; }
+        .nav-bar { position: fixed; bottom: 10px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); height: 70px; display: flex; border-radius: 25px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--gold); overflow-x: auto; z-index: 1000; }
+        .nav-item { flex: 1; min-width: 60px; border: none; background: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; transition: 0.3s;}
+        .nav-item.active { color: var(--primary); font-weight: bold; transform: scale(1.05); }
+        .nav-item i { font-size: 1.3rem; font-style: normal; margin-bottom: 2px;}
+        .page { display: none; padding: 20px; }
+        .page.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+    </style>
+</head>
+<body>
+
+    <div id="splashScreen">
+        <h1>منصة نوفل</h1>
+        <p>سلاحك نحو التفوق</p>
+    </div>
+
+    <div id="groupAuthModal">
+        <div class="auth-card">
+            <h3 id="groupModalTitle" style="color: var(--primary); margin-top:0;">التسجيل في الفوج</h3>
+            <p style="color:#64748b; font-size:0.9rem; margin-bottom:15px;">أدخل بياناتك وكود التفعيل الخاص بك</p>
+            <input type="text" id="gName" class="auth-input" placeholder="الاسم واللقب">
+            <input type="tel" id="gPhone" class="auth-input" placeholder="رقم الهاتف">
+            <input type="text" id="gCode" class="auth-input" placeholder="كود التفعيل">
+            <button class="btn btn-main" style="margin-top: 15px;" onclick="verifyGroupCode()">تأكيد ودخول الفوج</button>
+            <button class="btn" style="margin-top: 10px; background: #e2e8f0; color: #1e293b;" onclick="closeGroupModal()">إلغاء</button>
+        </div>
+    </div>
+
+    <div id="studyOverlay">
+        <h2 id="currentSubName" style="color: white; z-index: 2; margin-bottom: 5px;">جاري المذاكرة...</h2>
+        <div id="currentSubDesc" class="study-tip"></div>
+        <div class="timer-val" id="mainClock" style="z-index: 2;">00:00</div>
+        <div style="width: 100%; max-width: 320px; display: flex; flex-direction: column; gap: 12px; z-index: 2;">
+            <button class="btn" style="background: var(--gold); color: var(--secondary);" id="pauseBtn" onclick="togglePause()">إيقاف مؤقت ⏸</button>
+            <button class="btn" style="background: var(--accent); color: white;" onclick="emergencyExit()">خروج واحتفاظ بالوقت 🏃</button>
+        </div>
+    </div>
+
+    <div class="app-header">
+        <h2 style="margin:0; font-weight: 800; color: var(--gold);">✨ أكاديمية نوفل 2026 ✨</h2>
+        <div id="bacDays" style="font-size: 0.95rem; font-weight: bold; margin-top: 8px; background: rgba(255,255,255,0.15); display: inline-block; padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">...</div>
+    </div>
+
+    <div id="p-home" class="page active">
+        <h3 style="margin-top:0; color: var(--primary); text-align: center;">برنامجك الدراسي المنهجي 🎯</h3>
+        <p style="text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">اختر المادة وابدأ التركيز، فالنجاح يبدأ بخطوة منظمة.</p>
+        <div id="subsMenu" class="study-grid"></div>
+    </div>
+
+    <div id="p-lessons" class="page">
+        <div class="card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+            <h3 style="color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 1.4rem;">📚 مكتبة الدروس الشاملة</h3>
+            
+            <h3 class="category-title">🌍 اللغات الأجنبية</h3>
+            <div class="lesson-card">
+                <h4>شرح مفصل: النص التاريخي (فرنسية)</h4>
+                <p>شرح دقيق لمنهجية التعامل مع النص التاريخي وكيفية استخراج الأفكار.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-3-/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>كلمات ومصطلحات النص التاريخي</h4>
+                <p>أهم الكلمات المفتاحية للتمكن من فهم النص والإجابة على الأسئلة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/les-mots/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>الوحدة الأولى (إنجليزي) للشعب العلمية</h4>
+                <p>مراجعة شاملة ومكثفة للوحدة الأولى في اللغة الإنجليزية.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/englais1/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+
+            <h3 class="category-title">🤔 الفلسفة</h3>
+            <div class="lesson-card">
+                <h4>منهجية المقارنة (العلم والفلسفة)</h4>
+                <p>شرح منهجية المقارنة مع تطبيق مباشر على مقالة العلم والفلسفة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-4/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>المنهجية الجدلية (قيمة الفلسفة)</h4>
+                <p>خطوات المنهجية الجدلية بالتفصيل مع تطبيق على مقالة قيمة الفلسفة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-6/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+
+            <h3 class="category-title">📖 الأدب العربي</h3>
+            <div class="lesson-card">
+                <h4>ملخص شامل: شعر المهجر</h4>
+                <p>ملخص لخصائص ورواد شعر المهجر مع جميع الأسئلة المتكررة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/arab-2/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>موضوع شامل: الشعر السياسي</h4>
+                <p>تطبيق عملي وموضوع متكامل للتدرب على نصوص الشعر السياسي.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/test-arab-politique/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>السلسلة الذهبية (مواضيع شاملة)</h4>
+                <p>مواضيع مقترحة وشاملة في الأدب العربي لاختبار مستواك.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/arabic-exames/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+
+            <h3 class="category-title">🗺️ الاجتماعيات والهندسة</h3>
+            <div class="lesson-card">
+                <h4>موضوعين شاملين في الاجتماعيات</h4>
+                <p>موضوعان متكاملان في التاريخ والجغرافيا للمراجعة النهائية.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/test-histoir-geo-2/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>ملخص المنشأ العلوي (هندسة مدنية)</h4>
+                <p>شرح وملخص دقيق لدروس المنشأ العلوي لتلاميذ الهندسة المدنية.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/gini-civil/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="p-ramadan" class="page">
+        <div class="prayer-card">
+            <h3 style="margin: 0 0 10px 0; color: var(--gold); font-size: 1.4rem;">صدقة جارية 🤲</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 5px; opacity: 0.9;">إلى روح الجدة الطاهرة، نسألكم الدعاء لها بالرحمة والمغفرة.</p>
+            <div class="prayer-text">
+                "اللَّهُمَّ اغْفِرْ لَهَا وَارْحَمْهَا، وَعَافِهَا وَاعْفُ عَنْهَا، وَأَكْرِمْ نُزُلَهَا، وَوَسِّعْ مُدْخَلَهَا، وَاغْسِلْهَا بِالْمَاءِ وَالثَّلْجِ وَالْبَرَدِ، وَنَقِّهَا مِنَ الْخَطَايَا كَمَا يُنَقَّى الثَّوْبُ الْأَبْيَضُ مِنَ الدَّنَسِ."
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="color: var(--primary); text-align: center; margin-bottom: 20px;">📿 الأذكار والأدعية</h3>
+            <details>
+                <summary>☀️ أذكار الصباح</summary>
+                <p>
+                    • آية الكرسي<br>
+                    • المعوذات (الإخلاص، الفلق، الناس) 3 مرات.<br>
+                    • "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ..."<br>
+                    • "بِسْمِ اللَّهِ الَّذِي لاَ يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الأَرْضِ وَلاَ فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ" (3 مرات).
+                </p>
+            </details>
+            <details>
+                <summary>🌙 أذكار المساء</summary>
+                <p>
+                    • آية الكرسي<br>
+                    • المعوذات 3 مرات.<br>
+                    • "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ لا إِلَهَ إِلا اللَّهُ وَحْدَهُ لا شَرِيكَ لَهُ..."<br>
+                    • "أَمْسَيْنَا عَلَى فِطْرَةِ الإِسْلاَمِ، وَعَلَى كَلِمَةِ الإِخْلاَصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ..."
+                </p>
+            </details>
+            <details>
+                <summary>📚 أدعية المذاكرة</summary>
+                <p>
+                    <strong>قبل المذاكرة:</strong> "اللهم إني أسألك فهم النبيين، وحفظ المرسلين، والملائكة المقربين. اللهم اجعل ألسنتنا عامرة بذكرك، وقلوبنا بخشيتك."<br><br>
+                    <strong>عند النسيان:</strong> "اللهم يا جامع الناس ليوم لا ريب فيه، اجمع علي ضالتي."<br><br>
+                    <strong>بعد المذاكرة:</strong> "اللهم إني أستودعك ما قرأت وما حفظت وما تعلمت، فرده عند حاجتي إليه إنك على كل شيء قدير."
+                </p>
+            </details>
+        </div>
+
+        <div class="card">
+            <h3 style="color: var(--primary); text-align: center; margin: 10px 0;">📖 المصحف الشريف</h3>
+            <select id="surahSelect" class="auth-input" style="font-weight: bold; font-size: 1.1rem; color: var(--primary);" onchange="fetchSurah()">
+                </select>
+            <div id="quranContainer">
+                <div id="quranLoader" style="display:none; text-align:center; color: var(--gold); font-weight: bold;">جاري تحميل الآيات... ⏳</div>
+                <div id="quranText"></div>
+            </div>
+            <button class="btn btn-main" style="background: var(--success); margin-top: 15px;" onclick="saveQuranBookmark()">حفظ مكان التلاوة 💾</button>
+            <p id="quranSavedMsg" style="color: var(--success); font-size:0.9rem; font-weight: bold; margin-top: 10px; display: none; text-align:center;">تم الحفظ. تقبل الله 🤲</p>
+        </div>
+    </div>
+
+    <div id="p-groups" class="page">
+        <div class="card">
+            <h3 style="color: var(--primary); text-align: center; margin-bottom: 20px;">👥 طلبة المنصة</h3>
+            
+            <div style="background: linear-gradient(135deg, #fffbeb, #fef3c7); border: 2px solid var(--gold); border-radius: 20px; padding: 25px 20px; text-align: center; margin-bottom: 15px;">
+                <div style="font-size: 3rem; margin-bottom: 10px;">👑</div>
+                <h3 style="margin: 0 0 10px 0; color: var(--gold);">فوج التفوق (VIP)</h3>
+                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">لطلاب المتابعة الشخصية المكثفة.</p>
+                <button class="btn" style="background: var(--gold); color: var(--secondary);" onclick="openGroupModal('vip')">الدخول للفوج</button>
+            </div>
+
+            <div style="background: linear-gradient(135deg, #f8fafc, #f1f5f9); border: 2px solid var(--primary); border-radius: 20px; padding: 25px 20px; text-align: center;">
+                <div style="font-size: 3rem; margin-bottom: 10px;">📘</div>
+                <h3 style="margin: 0 0 10px 0; color: var(--primary);">الفوج العادي</h3>
+                <p style="font-size: 0.9rem; color: #64748b; margin-bottom: 15px;">لطلاب المتابعة الجماعية للبرنامج.</p>
+                <button class="btn btn-main" onclick="openGroupModal('regular')">الدخول للفوج</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="p-tasks" class="page">
+        <div class="card">
+            <h3 style="color: var(--primary);">📤 إرسال الواجب للأستاذ</h3>
+            <p style="color: #64748b; font-size: 0.9rem; margin-top: 0;">قم بتصوير حلك ورفعه ليتم تقييمه.</p>
+            <button class="btn btn-main" style="background: var(--success);" onclick="document.getElementById('fileInp').click()">تصوير الحل وإرساله 📸</button>
+            <input type="file" id="fileInp" accept="image/*" style="display:none" onchange="uploadPhoto(this)">
+        </div>
+        <div class="card">
+            <h3 style="color: var(--primary);">📝 مهام اليوم</h3>
+            <input type="text" id="taskInp" class="auth-input" placeholder="أضف مهمة...">
+            <button class="btn btn-main" onclick="addNewTask()">إضافة</button>
+            <div id="todayTasks" style="margin-top:20px;"></div>
+        </div>
+    </div>
+
+    <div id="p-consult" class="page">
+        <div class="card">
+            <h3 style="color: var(--primary); text-align: center;">💬 استشر الأستاذ نوفل</h3>
+            <textarea id="consultMsg" class="auth-input" style="height: 140px; resize: none;" placeholder="اكتب سؤالك هنا..."></textarea>
+            <button class="btn btn-main" style="margin-top: 10px;" onclick="sendConsult()">إرسال الاستشارة 🚀</button>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <button class="nav-item active" onclick="showP('home', this)"><i>🏠</i><span>الرئيسية</span></button>
+        <button class="nav-item" onclick="showP('lessons', this)"><i>📺</i><span>الدروس</span></button>
+        <button class="nav-item" onclick="showP('groups', this)"><i>👥</i><span>أفواج</span></button>
+        <button class="nav-item" onclick="showP('tasks', this)"><i>📝</i><span>المهام</span></button>
+        <button class="nav-item" onclick="showP('ramadan', this)"><i>🤲</i><span>إيمانيات</span></button>
+        <button class="nav-item" onclick="showP('consult', this)"><i>💬</i><span>استشرني</span></button>
+    </nav>
+
+    <script>
+        const CFG = { token: "8234205829:AAG3qcw6lZbhAS5s90P1lAS5DgT6uwcdFtM", chat: "8184681032" };
+        const GROUPS_CONFIG = {
+            vip: { code: "فوج تفوق2026", link: "https://t.me/+gbTW75aXbKRhNWZk" },
+            regular: { code: "فوج عادي 2026", link: "https://t.me/+h2ixhHOf-NMyNjY0" }
+        };
+
+        const subjects = [
+            {n: "مادة أساسية (1)", icon: "📚", d: 120, tip: "اغتنم الوقت في حل التمارين. لا تضيع الوقت في القراءة السطحية."},
+            {n: "مادة أساسية (2)", icon: "📐", d: 120, tip: "ركز على الأفكار التي تخطئ فيها وتدرب على حل المواضيع."},
+            {n: "مادة حفظ", icon: "🧠", d: 90, tip: "فسر الفهم أولاً، ثم حل المواضيع لتنظيم المفاهيم في رأسك."},
+            {n: "مواد أدبية", icon: "📖", d: 90, tip: "اكتب ملخصاتك بأسلوبك الخاص وتدرب لضبط المنهجية."},
+            {n: "مصطلحات وتواريخ", icon: "🗺️", d: 45, tip: "استخدم الورقة والقلم، واربط التواريخ بأحداث متسلسلة."}
+        ];
+
+        let studyTimer, isPaused = true, currentGroupType = '';
+
+        window.onload = () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splashScreen');
+                splash.style.opacity = '0';
+                splash.style.transform = 'scale(1.1)';
+                setTimeout(() => splash.style.display = 'none', 600);
+            }, 2500);
+
+            renderSubs(); updateBac(); fillSurahs(); renderTasks();
+            if(localStorage.getItem('sess')) openFocus(false);
+        };
+
+        function renderSubs() { document.getElementById('subsMenu').innerHTML = subjects.map(s => `<div class="study-box"><div><h4>${s.icon} ${s.n}</h4><p>💡 ${s.tip}</p></div><button class="btn btn-main" onclick="startStudy('${s.n}', ${s.d}, '${s.tip}')">ابدأ (${s.d} دقيقة) ⏱</button></div>`).join(''); }
+        function showP(id, el) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById('p-'+id).classList.add('active'); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); }
+        
+        function openGroupModal(type) { currentGroupType = type; document.getElementById('groupModalTitle').innerText = type === 'vip' ? 'التسجيل في فوج التفوق' : 'التسجيل في الفوج العادي'; document.getElementById('groupAuthModal').style.display = 'flex'; }
+        function closeGroupModal() { document.getElementById('groupAuthModal').style.display = 'none'; }
+        function verifyGroupCode() {
+            const n = document.getElementById('gName').value, p = document.getElementById('gPhone').value, c = document.getElementById('gCode').value.trim();
+            if(!n || !p || !c) { alert("يرجى ملء جميع البيانات!"); return; }
+            if(c === GROUPS_CONFIG[currentGroupType].code) {
+                localStorage.setItem('user', n);
+                sendBot(`🆕 طالب جديد انضم إلى (${currentGroupType === 'vip' ? 'فوج التفوق' : 'الفوج العادي'}):\n👤 الاسم: ${n}\n📱 الهاتف: ${p}`);
+                alert("✅ تم التحقق بنجاح! سيتم تحويلك إلى الفوج عبر تيليجرام.");
+                window.open(GROUPS_CONFIG[currentGroupType].link, '_blank');
+                closeGroupModal();
+            } else alert("❌ كود التفعيل غير صحيح! تأكد من الكود الذي استلمته.");
+        }
+
+        function startStudy(n, mins, tip) { localStorage.setItem('sess', JSON.stringify({ n, remain: mins * 60, total: mins * 60, tip })); openFocus(true); }
+        function openFocus(autoStart) {
+            document.getElementById('studyOverlay').style.display = 'flex';
+            const s = JSON.parse(localStorage.getItem('sess'));
+            document.getElementById('currentSubName').innerText = s.n; document.getElementById('currentSubDesc').innerHTML = `<strong>نصيحة:</strong><br>${s.tip}`;
+            updateClockUI(s.remain);
+            if(autoStart) { isPaused = false; document.getElementById('pauseBtn').innerText = "إيقاف مؤقت ⏸"; startInterval(); }
+            else { isPaused = true; document.getElementById('pauseBtn').innerText = "متابعة المذاكرة ▶️"; }
+        }
+        function startInterval() { clearInterval(studyTimer); studyTimer = setInterval(() => { if(!isPaused) { let s = JSON.parse(localStorage.getItem('sess')); s.remain--; localStorage.setItem('sess', JSON.stringify(s)); updateClockUI(s.remain); if(s.remain <= 0) finishSess(); } }, 1000); }
+        function togglePause() { isPaused = !isPaused; document.getElementById('pauseBtn').innerText = isPaused ? "متابعة ▶️" : "إيقاف ⏸"; if(!isPaused) startInterval(); }
+        function updateClockUI(sec) { const m = Math.floor(sec/60), s = sec%60; document.getElementById('mainClock').innerText = `${m}:${s<10?'0'+s:s}`; }
+        function emergencyExit() { isPaused = true; clearInterval(studyTimer); document.getElementById('studyOverlay').style.display = 'none'; }
+        function finishSess() { localStorage.removeItem('sess'); alert("🎉 انتهى الوقت!"); location.reload(); }
+        function updateBac() { document.getElementById('bacDays').innerText = `بقي ${Math.floor((new Date("2026-06-07") - new Date())/86400000)} يوم على البكالوريا 🎓`; }
+
+        function addNewTask() { const v = document.getElementById('taskInp').value; if(!v) return; const t = JSON.parse(localStorage.getItem('tasks') || "[]"); t.push(v); localStorage.setItem('tasks', JSON.stringify(t)); renderTasks(); document.getElementById('taskInp').value = ""; }
+        function deleteTask(i) { const t = JSON.parse(localStorage.getItem('tasks') || "[]"); t.splice(i, 1); localStorage.setItem('tasks', JSON.stringify(t)); renderTasks(); }
+        function renderTasks() { document.getElementById('todayTasks').innerHTML = JSON.parse(localStorage.getItem('tasks') || "[]").map((t, i) => `<div style="display:flex; justify-content:space-between; background:#f0fdf4; padding:12px; border-radius:12px; margin-bottom:8px; border-right:4px solid var(--success);"><span>✅ ${t}</span><button onclick="deleteTask(${i})" style="background:#fee2e2; color:#ef4444; border:none; padding:5px 10px; border-radius:8px; cursor:pointer; font-weight:bold;">حذف</button></div>`).join(''); }
+
+        function sendBot(m) { fetch(`https://api.telegram.org/bot${CFG.token}/sendMessage`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ chat_id: CFG.chat, text: m }) }); }
+        function sendConsult() { const m = document.getElementById('consultMsg').value; if(!m) return; sendBot(`💬 استشارة من: ${localStorage.getItem('user')||'طالب'}\n📝 السؤال: ${m}`); alert("تم الإرسال للأستاذ نوفل!"); document.getElementById('consultMsg').value = ''; }
+        function uploadPhoto(inp) { if (!inp.files.length) return; const fd = new FormData(); fd.append('chat_id', CFG.chat); fd.append('photo', inp.files[0]); fd.append('caption', `📸 واجب من: ${localStorage.getItem('user')||'طالب'}`); fetch(`https://api.telegram.org/bot${CFG.token}/sendPhoto`, { method: 'POST', body: fd }).then(r=>r.json()).then(d=> { if(d.ok) alert("✅ تم إرسال الواجب!"); else alert("⚠️ فشل الإرسال!"); }); }
+
+        // المصحف كاملاً 114 سورة
+        const fullSurahNames = [
+            "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
+            "هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+            "الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+            "لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر",
+            "فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق",
+            "الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+            "الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج",
+            "نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
+            "التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+            "الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات",
+            "القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+            "المسد","الإخلاص","الفلق","الناس"
+        ]; 
+        function fillSurahs() { document.getElementById('surahSelect').innerHTML = fullSurahNames.map((n, i) => `<option value="${i+1}">${i+1} - سورة ${n}</option>`).join(''); document.getElementById('surahSelect').value = localStorage.getItem('quranWirdSurah') || 1; fetchSurah(); }
+        async function fetchSurah() {
+            const num = document.getElementById('surahSelect').value, c = document.getElementById('quranText');
+            document.getElementById('quranLoader').style.display = 'block'; c.innerHTML = '';
+            try {
+                const res = await fetch(`https://api.alquran.cloud/v1/surah/${num}`); const data = await res.json();
+                let html = (num != 1 && num != 9) ? '<div style="text-align:center; font-weight:bold; color:var(--primary); margin-bottom:15px; font-size:1.6rem;">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>' : '';
+                data.data.ayahs.forEach(a => html += `<span>${(num != 1) ? a.text.replace('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ ', '') : a.text} <span class="ayah-num">﴿${a.numberInSurah}﴾</span> </span>`);
+                c.innerHTML = html;
+            } catch (err) { c.innerHTML = '<div style="color:red; text-align:center;">خطأ في التحميل. يرجى التأكد من اتصال الإنترنت.</div>'; }
+            finally { document.getElementById('quranLoader').style.display = 'none'; }
+        }
+        function saveQuranBookmark() { localStorage.setItem('quranWirdSurah', document.getElementById('surahSelect').value); const m = document.getElementById('quranSavedMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none', 3500); }
+
+        // كود تشغيل تطبيق الهاتف (Service Worker)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => console.log('PWA Registered')).catch(err => console.log('PWA Failed', err));
+            });
+        }
+    </script>
+</body>
+</html>
