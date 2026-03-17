@@ -8,13 +8,8 @@
   "description": "سلاحك نحو التفوق في البكالوريا",
   "icons": [
     {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
+      "src": "logo.png",
+      "sizes": "192x192 512x512 any",
       "type": "image/png"
     }
   ]
