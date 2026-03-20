@@ -21,6 +21,16 @@
         #studyOverlay, #groupAuthModal { position: fixed; inset: 0; z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
         #studyOverlay { background: radial-gradient(circle, var(--primary), var(--secondary)); flex-direction: column; color: white; text-align: center; }
         #groupAuthModal { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); }
+        
+        /* شاشة المحاكي العائمة الجديدة */
+        #activeExamContainer { display: none; position: fixed; inset: 0; z-index: 40000; background: #fff; flex-direction: column; }
+        #floatingTimerBar { background: var(--secondary); color: white; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 8px; z-index: 40001; }
+        .floating-top-row { display: flex; justify-content: space-between; align-items: center; }
+        #floatingClock { font-size: 1.8rem; font-weight: 900; font-family: monospace; color: var(--success); text-shadow: 0 0 10px rgba(5, 150, 105, 0.5); }
+        #floatingPhase { font-size: 0.9rem; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 8px; text-align: center; border: 1px solid var(--gold); }
+        .phase-warning { background: rgba(185, 28, 28, 0.3) !important; border-color: var(--accent) !important; color: #fca5a5; }
+        #examFrame { flex: 1; border: none; width: 100%; background: #f8fafc; }
+
         .auth-card { background: #ffffff; padding: 35px 30px; border-radius: 25px; width: 100%; max-width: 350px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; border: 2px solid var(--gold); }
         .auth-input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 12px; outline: none; font-family: inherit; box-sizing: border-box; background: #f8fafc; transition: 0.3s; font-size: 1rem; }
         .auth-input:focus { border-color: var(--gold); background: #fff;}
@@ -90,6 +100,18 @@
         </div>
     </div>
 
+    <div id="activeExamContainer">
+        <div id="floatingTimerBar">
+            <div class="floating-top-row">
+                <span id="floatingExamTitle" style="font-weight:bold; color:var(--gold);">موضوع الامتحان</span>
+                <span id="floatingClock">00:00:00</span>
+                <button onclick="quitExam()" style="background:var(--accent); color:white; border:none; padding:8px 15px; border-radius:8px; font-weight:bold; cursor:pointer;">انسحاب 🏳️</button>
+            </div>
+            <div id="floatingPhase">🧐 مرحلة قراءة الموضوع والاختيار</div>
+        </div>
+        <iframe id="examFrame" src=""></iframe>
+    </div>
+
     <div class="app-header">
         <h2 style="margin:0; font-weight: 800; color: var(--gold);">✨ أكاديمية نوفل 2026 ✨</h2>
         <div id="bacDays" style="font-size: 0.95rem; font-weight: bold; margin-top: 8px; background: rgba(255,255,255,0.15); display: inline-block; padding: 6px 20px; border-radius: 20px; border: 1px solid rgba(212, 175, 55, 0.3);">...</div>
@@ -99,6 +121,39 @@
         <h3 style="margin-top:0; color: var(--primary); text-align: center;">برنامجك الدراسي المنهجي 🎯</h3>
         <p style="text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">اختر المادة وابدأ التركيز، فالنجاح يبدأ بخطوة منظمة.</p>
         <div id="subsMenu" class="study-grid"></div>
+    </div>
+
+    <div id="p-simulator" class="page">
+        <div class="card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+            <h3 style="color: var(--accent); text-align: center; margin-bottom: 5px; font-size: 1.4rem;">⏱️ محاكي البكالوريا الذكي</h3>
+            <p style="text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">جهز أوراقك، بمجرد الدخول سيتم احتساب الوقت رسمياً.</p>
+
+            <div class="study-box" style="border-top-color: var(--accent);">
+                <h4>📐 موضوعين في الرياضيات (شامل)</h4>
+                <p>المدة: 3 ساعات و 30 دقيقة</p>
+                <button class="btn" style="background: var(--accent); color: white;" onclick="startExam('موضوعين رياضيات', 210, 'https://nfendi-sudo.github.io/test-math/')">بدء المحاكاة 🚀</button>
+            </div>
+            <div class="study-box" style="border-top-color: var(--primary);">
+                <h4>📖 موضوع في الشعر المهجري</h4>
+                <p>المدة: 3 ساعات</p>
+                <button class="btn btn-main" onclick="startExam('الشعر المهجري', 180, 'https://nfendi-sudo.github.io/sujet-arab-3/')">بدء المحاكاة 🚀</button>
+            </div>
+            <div class="study-box" style="border-top-color: var(--success);">
+                <h4>🕋 موضوع علوم إسلامية</h4>
+                <p>المدة: ساعتان و 30 دقيقة</p>
+                <button class="btn" style="background: var(--success); color: white;" onclick="startExam('العلوم الإسلامية', 150, 'https://nfendi-sudo.github.io/test-islamic2/')">بدء المحاكاة 🚀</button>
+            </div>
+            <div class="study-box" style="border-top-color: #f59e0b;">
+                <h4>🏗️ موضوع نظري هندسة مدنية</h4>
+                <p>المدة: ساعتان</p>
+                <button class="btn" style="background: #f59e0b; color: white;" onclick="startExam('هندسة مدنية', 120, 'https://nfendi-sudo.github.io/gini-civil-/')">بدء المحاكاة 🚀</button>
+            </div>
+            <div class="study-box" style="border-top-color: var(--gold);">
+                <h4>🔢 سلسلة تمارين رياضيات مكثفة</h4>
+                <p>المدة: ساعتان</p>
+                <button class="btn" style="background: var(--gold); color: white;" onclick="startExam('تمارين الرياضيات', 120, 'https://nfendi-sudo.github.io/exercices-math/')">بدء المحاكاة 🚀</button>
+            </div>
+        </div>
     </div>
 
     <div id="p-lessons" class="page">
@@ -263,6 +318,7 @@
     <nav class="nav-bar">
         <button class="nav-item active" onclick="showP('home', this)"><i>🏠</i><span>الرئيسية</span></button>
         <button class="nav-item" onclick="showP('lessons', this)"><i>📺</i><span>الدروس</span></button>
+        <button class="nav-item" onclick="showP('simulator', this)"><i>⏱️</i><span>المحاكي</span></button>
         <button class="nav-item" onclick="showP('groups', this)"><i>👥</i><span>أفواج</span></button>
         <button class="nav-item" onclick="showP('tasks', this)"><i>📝</i><span>المهام</span></button>
         <button class="nav-item" onclick="showP('ramadan', this)"><i>🤲</i><span>إيمانيات</span></button>
@@ -284,7 +340,7 @@
             {n: "مصطلحات وتواريخ", icon: "🗺️", d: 45, tip: "استخدم الورقة والقلم، واربط التواريخ بأحداث متسلسلة."}
         ];
 
-        let studyTimer, isPaused = true, currentGroupType = '';
+        let studyTimer, examTimer, isPaused = true, currentGroupType = '';
 
         window.onload = () => {
             setTimeout(() => {
@@ -329,6 +385,52 @@
         function updateClockUI(sec) { const m = Math.floor(sec/60), s = sec%60; document.getElementById('mainClock').innerText = `${m}:${s<10?'0'+s:s}`; }
         function emergencyExit() { isPaused = true; clearInterval(studyTimer); document.getElementById('studyOverlay').style.display = 'none'; }
         function finishSess() { localStorage.removeItem('sess'); alert("🎉 انتهى الوقت!"); location.reload(); }
+        
+        // --- دوال محاكي البكالوريا الجديدة ---
+        function startExam(title, mins, link) {
+            const totalExamTime = mins * 60;
+            let remain = totalExamTime;
+            
+            document.getElementById('activeExamContainer').style.display = 'flex';
+            document.getElementById('floatingExamTitle').innerText = title;
+            document.getElementById('examFrame').src = link;
+            
+            updateExamClockUI(remain);
+            checkExamPhase(remain, totalExamTime);
+            
+            clearInterval(examTimer);
+            examTimer = setInterval(() => {
+                remain--;
+                updateExamClockUI(remain);
+                checkExamPhase(remain, totalExamTime);
+                if(remain <= 0) {
+                    clearInterval(examTimer);
+                    document.getElementById('floatingPhase').innerText = "🛑 انتهى الوقت الرسمي! توقف عن الكتابة.";
+                    document.getElementById('floatingPhase').classList.add('phase-warning');
+                    alert("انتهى الوقت المخصص للامتحان.");
+                }
+            }, 1000);
+        }
+
+        function checkExamPhase(remain, total) {
+            const phaseEl = document.getElementById('floatingPhase');
+            const passed = total - remain;
+            if(passed <= 1800) { phaseEl.innerText = "🧐 مرحلة قراءة الموضوع والاختيار (نصف ساعة)"; phaseEl.className = ""; } 
+            else if(remain <= 1800) { phaseEl.innerText = "⚠️ انتباه: مرحلة المراجعة (باقي أقل من نصف ساعة!)"; phaseEl.className = "phase-warning"; document.getElementById('floatingClock').style.color = "var(--accent)"; } 
+            else { phaseEl.innerText = "✍️ مرحلة الحل ونقل الإجابات"; phaseEl.className = ""; }
+        }
+
+        function quitExam() {
+            if(confirm("هل أنت متأكد من الانسحاب قبل انتهاء الوقت المخصص للامتحان؟")) {
+                clearInterval(examTimer);
+                document.getElementById('activeExamContainer').style.display = 'none';
+                document.getElementById('examFrame').src = "";
+                document.getElementById('floatingClock').style.color = "var(--success)";
+            }
+        }
+
+        function updateExamClockUI(sec) { const h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60; document.getElementById('floatingClock').innerText = `${h<10?'0'+h:h}:${m<10?'0'+m:m}:${s<10?'0'+s:s}`; }
+        
         function updateBac() { document.getElementById('bacDays').innerText = `بقي ${Math.floor((new Date("2026-06-07") - new Date())/86400000)} يوم على البكالوريا 🎓`; }
 
         function addNewTask() { const v = document.getElementById('taskInp').value; if(!v) return; const t = JSON.parse(localStorage.getItem('tasks') || "[]"); t.push(v); localStorage.setItem('tasks', JSON.stringify(t)); renderTasks(); document.getElementById('taskInp').value = ""; }
@@ -368,7 +470,6 @@
         }
         function saveQuranBookmark() { localStorage.setItem('quranWirdSurah', document.getElementById('surahSelect').value); const m = document.getElementById('quranSavedMsg'); m.style.display='block'; setTimeout(()=>m.style.display='none', 3500); }
 
-        // كود تشغيل تطبيق الهاتف (Service Worker)
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('sw.js').then(reg => console.log('PWA Registered')).catch(err => console.log('PWA Failed', err));
