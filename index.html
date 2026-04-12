@@ -15,14 +15,23 @@
     <style>
         :root { --primary: #1e3a8a; --secondary: #0f172a; --accent: #b91c1c; --bg: #f8fafc; --text: #1e293b; --success: #059669; --gold: #d4af37; }
         body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding-bottom: 90px; overflow-x: hidden; }
+        
         #splashScreen { position: fixed; inset: 0; background: linear-gradient(135deg, var(--secondary), var(--primary)); z-index: 30000; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; transition: opacity 0.6s ease, transform 0.6s ease; }
         #splashScreen h1 { font-size: 3rem; color: var(--gold); margin: 0 0 10px 0; text-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
         #splashScreen p { font-size: 1.5rem; margin: 0; opacity: 0.9; }
+        
+        /* نافذة عرض الفيديو الاحترافية */
+        #videoOverlay { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 50000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; backdrop-filter: blur(5px); }
+        .video-window { width: 100%; max-width: 900px; aspect-ratio: 16/9; background: #000; border-radius: 15px; overflow: hidden; position: relative; border: 2px solid var(--gold); box-shadow: 0 0 30px rgba(212, 175, 55, 0.2); }
+        #videoFrame { width: 100%; height: 100%; border: none; }
+        .close-video { position: absolute; top: -45px; left: 0; color: white; font-size: 1rem; cursor: pointer; background: var(--accent); padding: 8px 15px; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+        .close-video:hover { background: #991b1b; }
+
         #studyOverlay, #groupAuthModal { position: fixed; inset: 0; z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; }
         #studyOverlay { background: radial-gradient(circle, var(--primary), var(--secondary)); flex-direction: column; color: white; text-align: center; }
         #groupAuthModal { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px); }
         
-        /* شاشة المحاكي العائمة الجديدة */
+        /* شاشة المحاكي العائمة */
         #activeExamContainer { display: none; position: fixed; inset: 0; z-index: 40000; background: #fff; flex-direction: column; }
         #floatingTimerBar { background: var(--secondary); color: white; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 8px; z-index: 40001; }
         .floating-top-row { display: flex; justify-content: space-between; align-items: center; }
@@ -36,36 +45,45 @@
         .auth-input:focus { border-color: var(--gold); background: #fff;}
         .timer-val { font-size: 5rem; font-weight: 900; font-family: monospace; color: var(--gold); margin: 20px 0; text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
         .study-tip { background: rgba(255,255,255,0.1); padding: 15px; border-radius: 15px; border: 1px dashed var(--gold); margin-bottom: 30px; line-height: 1.6; max-width: 400px; }
+        
         .app-header { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; padding: 30px 25px 25px; text-align: center; border-radius: 0 0 35px 35px; border-bottom: 3px solid var(--gold); }
         .card { background: white; border-radius: 24px; padding: 20px; margin-bottom: 20px; border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        
         .study-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-top: 15px; }
         .study-box { background: linear-gradient(145deg, #ffffff, #fdfbf7); border-radius: 20px; padding: 20px; border: 1px solid #e2e8f0; border-top: 4px solid var(--gold); box-shadow: 0 8px 15px rgba(0,0,0,0.02); transition: 0.3s; z-index: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .study-box:hover { transform: translateY(-5px); box-shadow: 0 12px 20px rgba(0,0,0,0.06); }
         .study-box h4 { margin: 0 0 10px 0; color: var(--primary); font-size: 1.25rem; display: flex; align-items: center; gap: 8px;}
         .study-box p { margin: 0 0 15px 0; color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+        
         .category-title { color: var(--primary); border-bottom: 2px dashed var(--gold); padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; display: inline-block; font-weight: 800; font-size: 1.2rem;}
         .lesson-card { background: #f8fafc; border-radius: 16px; padding: 15px; margin-bottom: 12px; border: 1px solid #e2e8f0; border-right: 4px solid var(--primary); transition: 0.3s; }
         .lesson-card:hover { background: #fff; transform: translateX(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .lesson-card h4 { margin: 0 0 5px 0; color: var(--secondary); font-size: 1.05rem;}
         .lesson-card p { font-size: 0.85rem; color: #64748b; margin: 0 0 12px 0; line-height: 1.5;}
+        
         .prayer-card { background: linear-gradient(135deg, #1e3a8a, #0f172a); color: white; border-radius: 20px; padding: 25px 20px; text-align: center; border: 2px solid var(--gold); margin-bottom: 25px; box-shadow: 0 10px 25px rgba(30, 58, 138, 0.3); position: relative; }
         .prayer-card::before { content: '🕊️'; font-size: 2rem; position: absolute; top: 10px; right: 20px; opacity: 0.8; }
         .prayer-text { font-family: 'Amiri', serif; font-size: 1.3rem; line-height: 1.8; margin-top: 10px; }
+        
         details { background: #f8fafc; padding: 15px; border-radius: 15px; margin-bottom: 12px; border: 1px solid #e2e8f0; transition: 0.3s; }
         summary { font-weight: bold; cursor: pointer; color: var(--primary); font-size: 1.1rem; outline: none; display: flex; align-items: center; gap: 8px;}
         details p { font-family: 'Amiri', serif; font-size: 1.1rem; line-height: 2; margin-top: 15px; border-top: 1px dashed #cbd5e1; padding-top: 15px; color: var(--secondary);}
+        
         .btn { padding: 12px; border-radius: 12px; border: none; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; font-family: inherit; font-size: 0.95rem;}
         .btn-main { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2); }
         .btn-main:hover { background: var(--secondary); }
         .btn-lesson { background: #e2e8f0; color: var(--secondary); }
         .btn-lesson:hover { background: var(--primary); color: white;}
+        
         #quranContainer { background: #fff; border: 2px solid var(--gold); border-radius: 15px; padding: 20px; max-height: 50vh; overflow-y: auto; margin-top: 15px; }
         #quranText { font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 2.2; text-align: justify; }
         .ayah-num { color: var(--gold); font-size: 1.2rem; margin: 0 5px; }
+        
         .nav-bar { position: fixed; bottom: 10px; left: 10px; right: 10px; background: rgba(255,255,255,0.95); height: 70px; display: flex; border-radius: 25px; backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid var(--gold); overflow-x: auto; z-index: 1000; }
         .nav-item { flex: 1; min-width: 60px; border: none; background: none; color: #94a3b8; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.65rem; transition: 0.3s;}
         .nav-item.active { color: var(--primary); font-weight: bold; transform: scale(1.05); }
         .nav-item i { font-size: 1.3rem; font-style: normal; margin-bottom: 2px;}
+        
         .page { display: none; padding: 20px; }
         .page.active { display: block; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
@@ -76,6 +94,13 @@
     <div id="splashScreen">
         <h1>منصة نوفل</h1>
         <p>سلاحك نحو التفوق</p>
+    </div>
+
+    <div id="videoOverlay">
+        <div class="video-window">
+            <span class="close-video" onclick="closeVideo()">إغلاق الفيديو ✖</span>
+            <iframe id="videoFrame" src="" allow="autoplay; fullscreen"></iframe>
+        </div>
     </div>
 
     <div id="groupAuthModal">
@@ -156,10 +181,86 @@
         </div>
     </div>
 
+    <div id="p-emergency" class="page">
+        <div class="card" style="border: 2px solid var(--accent);">
+            <h3 style="color: var(--accent); text-align: center; margin-bottom: 5px;">🚑 خطة الطوارئ للنجاح (المنعطف الأخير)</h3>
+            <p style="text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 20px;">الوقت المتبقي كافٍ جداً إذا ركزت على "الأهم". هذه الخطة تضمن لك النقاط الكبرى استناداً لما يتكرر دائماً (قاعدة 80/20).</p>
+
+            <details>
+                <summary>📐 الرياضيات (المحاور الأساسية)</summary>
+                <p>
+                    <strong>1. الدوال (الأسية واللوغاريتمية):</strong> تمثل حصة الأسد (7 إلى 8 نقاط). ركز على النهايات، المشتقة، جدول التغيرات، المناقشة البيانية ورسم المنحنى.<br>
+                    <strong>2. المتتاليات العددية:</strong> (4 إلى 5 نقاط). تدرب جيداً على البرهان بالتراجع، اتجاه التغير، والمجاميع المألوفة.<br>
+                    <strong>3. الاحتمالات:</strong> (4 إلى 5 نقاط). التركيز على شجرة الاحتمالات والمتغير العشوائي والأمل الرياضي.<br>
+                    <span style="color:var(--accent); font-size:0.85rem;">⚠️ نصيحة: تجاوز المحاور الشديدة التعقيد حالياً وركز على حل البكالوريات السابقة في هذه الوحدات الثلاث لتضمن علامة ممتازة.</span>
+                </p>
+            </details>
+
+            <details>
+                <summary>⚛️ العلوم الفيزيائية</summary>
+                <p>
+                    <strong>1. الظواهر الكهربائية (RC, RL):</strong> المعادلات التفاضلية وحلولها والبيانات تعتبر ثابتة وتتكرر دائماً. مضمونة جداً.<br>
+                    <strong>2. التحولات النووية:</strong> قوانين التناقص الإشعاعي ومخطط أستون وقانون طاقة الربط.<br>
+                    <strong>3. الميكانيك:</strong> (حركة الأقمار والسقوط الشاقولي) القوانين واضحة وتحتاج لتدريب مباشر على استخراج العلاقات من البيانات.<br>
+                    <strong>4. المتابعة الزمنية والأحماض والأسس:</strong> ركز على جدول التقدم وحساب السرعات، وزمن نصف التفاعل، ومعايرة pH.
+                </p>
+            </details>
+
+            <details>
+                <summary>📖 الأدب العربي (الشعب العلمية والمشتركة)</summary>
+                <p>
+                    <strong>1. البناء الفكري (المقال):</strong> (البشير الإبراهيمي، طه حسين...). منهجيته واضحة ويسهل جمع النقاط فيه مقارنة بالشعر لسهولة استخراج الأفكار.<br>
+                    <strong>2. الشعر المهجري والسياسي:</strong> إذا كنت تفضل الشعر، فهذان المحوران هما الأكثر وروداً (النزعة الإنسانية والقومية والوطنية).<br>
+                    <strong>3. البناء اللغوي:</strong> ركز على إعراب الجمل، إعراب الكلمات المتكررة (إذ، إذا، إذن، حينئذ، البدل، التمييز)، والصور البيانية (الاستعارة والتشبيه).
+                </p>
+            </details>
+
+            <details>
+                <summary>🕋 العلوم الإسلامية</summary>
+                <p>
+                    <strong>1. المقاصد والعقل:</strong> دروس الفهم المباشرة التي لا تتطلب حفظاً حرفياً، الإجابة تكون من الفهم والواقع.<br>
+                    <strong>2. الربا والمعاملات المالية:</strong> ركز على استخراج علة التحريم والمقارنة بين أنواع الربا.<br>
+                    <strong>3. الميراث:</strong> درس تطبيقي ممتع يضمن لك نقاطاً ثابتة في الجزء الثاني ولا يتطلب حفظاً كبيراً بل استيعاباً للجدول.<br>
+                    <strong>4. خطبة حجة الوداع والوقف:</strong> مواضيع كلاسيكية تتكرر بكثرة.<br>
+                    <span style="color:var(--success); font-size:0.85rem;">💡 منهجية الاستخراج: تدرب باستمرار على كيفية "استخراج الأحكام والفوائد" من الآيات.</span>
+                </p>
+            </details>
+
+            <details>
+                <summary>🗺️ التاريخ والجغرافيا</summary>
+                <p>
+                    <strong>1. التاريخ:</strong> الثورة الجزائرية (مؤسسات الثورة، استراتيجية التنفيذ، رد فعل الاستعمار)، والحرب الباردة (التعايش السلمي، الأزمات الدولية).<br>
+                    <strong>2. الجغرافيا:</strong> المبادلات والتنقلات (البترول، القمح)، والقوى الاقتصادية الكبرى (الولايات المتحدة الأمريكية، والاتحاد الأوروبي).<br>
+                    <strong>3. المنهجية (نصف العلامة!):</strong> تدرب على كيفية رسم الأعمدة البيانية، الدوائر النسبية، وكيفية التعليق على الجداول بشكل منهجي (تقديم، ملاحظة، استنتاج).
+                </p>
+            </details>
+        </div>
+        
+        <div class="card">
+            <h3 style="color: var(--primary); text-align: center; margin-bottom: 10px;">📋 كيف تطبق خطة الطوارئ اليوم؟</h3>
+            <ul style="color: var(--secondary); font-size: 0.95rem; line-height: 1.8; padding-right: 20px;">
+                <li><strong>لا تدرس من الصفر أبداً:</strong> اقرأ الملخصات الشاملة مباشرة ثم انتقل فوراً لحل التمارين. الخطأ من التطبيق يعلمك أسرع من القراءة.</li>
+                <li><strong>حل البكالوريات السابقة (2015-2023):</strong> بنسبة كبيرة تتكرر نفس الأفكار، وتتغير الأرقام والأسماء فقط. اعتمد على التصحيح النموذجي.</li>
+                <li><strong>استخدم المحاكي بذكاء:</strong> استعمل محاكي المنصة لدراسة ساعتين متواصلتين لكل مادة أساسية بدون مشتتات.</li>
+                <li><strong>تجنب السهر المفرط:</strong> لا تسهر بعد منتصف الليل. الذاكرة تترسخ وترتب المعلومات حصرياً أثناء مرحلة النوم العميق.</li>
+            </ul>
+        </div>
+    </div>
+
     <div id="p-lessons" class="page">
         <div class="card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
             <h3 style="color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 1.4rem;">📚 مكتبة الدروس الشاملة</h3>
             
+            <h3 class="category-title" style="color: var(--accent); border-bottom-color: var(--accent);">🎥 شروحات الفيديو (أونلاين)</h3>
+            <div class="lesson-card" style="border-right-color: var(--accent); background: #fffdf5;">
+                <h4>💎 شرح الأستاذ نوفل: إعراب (إذا) </h4>
+                <p>فيديو شامل يجمع بين إعراب "إذا" وحالاتها بالتفصيل.</p>
+                <button class="btn" style="background: var(--accent); color: white;" 
+                        onclick="playVideo('https://drive.google.com/file/d/1bmsocWZBmQBivI-LDM-haHWWkrzKeleD/preview')">
+                    شاهد الفيديو مباشرة 📺
+                </button>
+            </div>
+
             <h3 class="category-title">🌍 اللغات الأجنبية</h3>
             <div class="lesson-card">
                 <h4>شرح مفصل: النص التاريخي (فرنسية)</h4>
@@ -262,7 +363,7 @@
         <div class="card">
             <h3 style="color: var(--primary); text-align: center; margin: 10px 0;">📖 المصحف الشريف</h3>
             <select id="surahSelect" class="auth-input" style="font-weight: bold; font-size: 1.1rem; color: var(--primary);" onchange="fetchSurah()">
-                </select>
+            </select>
             <div id="quranContainer">
                 <div id="quranLoader" style="display:none; text-align:center; color: var(--gold); font-weight: bold;">جاري تحميل الآيات... ⏳</div>
                 <div id="quranText"></div>
@@ -310,6 +411,7 @@
     <div id="p-consult" class="page">
         <div class="card">
             <h3 style="color: var(--primary); text-align: center;">💬 استشر الأستاذ نوفل</h3>
+            <input type="url" id="consultLink" class="auth-input" placeholder="رابط حسابك (فيسبوك، تيليجرام...) للتواصل معك" style="margin-bottom: 10px;">
             <textarea id="consultMsg" class="auth-input" style="height: 140px; resize: none;" placeholder="اكتب سؤالك هنا..."></textarea>
             <button class="btn btn-main" style="margin-top: 10px;" onclick="sendConsult()">إرسال الاستشارة 🚀</button>
         </div>
@@ -319,6 +421,7 @@
         <button class="nav-item active" onclick="showP('home', this)"><i>🏠</i><span>الرئيسية</span></button>
         <button class="nav-item" onclick="showP('lessons', this)"><i>📺</i><span>الدروس</span></button>
         <button class="nav-item" onclick="showP('simulator', this)"><i>⏱️</i><span>المحاكي</span></button>
+        <button class="nav-item" onclick="showP('emergency', this)"><i>🚑</i><span>إنقاذ</span></button>
         <button class="nav-item" onclick="showP('groups', this)"><i>👥</i><span>أفواج</span></button>
         <button class="nav-item" onclick="showP('tasks', this)"><i>📝</i><span>المهام</span></button>
         <button class="nav-item" onclick="showP('ramadan', this)"><i>🤲</i><span>إيمانيات</span></button>
@@ -326,7 +429,7 @@
     </nav>
 
     <script>
-       const CFG = { token: "8234205829:AAG3qcw6lZbhAS5s90P1lAS5DgT6uwcdFtM", chat: "8355788507" };
+        const CFG = { token: "8234205829:AAG3qcw6lZbhAS5s90P1lAS5DgT6uwcdFtM", chat: "8355788507" };
         const GROUPS_CONFIG = {
             vip: { code: "فوج تفوق2026", link: "https://t.me/+gbTW75aXbKRhNWZk" },
             regular: { code: "فوج عادي 2026", link: "https://t.me/+h2ixhHOf-NMyNjY0" }
@@ -353,6 +456,16 @@
             renderSubs(); updateBac(); fillSurahs(); renderTasks();
             if(localStorage.getItem('sess')) openFocus(false);
         };
+
+        // وظائف مشغل الفيديو
+        function playVideo(url) {
+            document.getElementById('videoFrame').src = url;
+            document.getElementById('videoOverlay').style.display = 'flex';
+        }
+        function closeVideo() {
+            document.getElementById('videoOverlay').style.display = 'none';
+            document.getElementById('videoFrame').src = '';
+        }
 
         function renderSubs() { document.getElementById('subsMenu').innerHTML = subjects.map(s => `<div class="study-box"><div><h4>${s.icon} ${s.n}</h4><p>💡 ${s.tip}</p></div><button class="btn btn-main" onclick="startStudy('${s.n}', ${s.d}, '${s.tip}')">ابدأ (${s.d} دقيقة) ⏱</button></div>`).join(''); }
         function showP(id, el) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById('p-'+id).classList.add('active'); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); el.classList.add('active'); }
@@ -386,7 +499,6 @@
         function emergencyExit() { isPaused = true; clearInterval(studyTimer); document.getElementById('studyOverlay').style.display = 'none'; }
         function finishSess() { localStorage.removeItem('sess'); alert("🎉 انتهى الوقت!"); location.reload(); }
         
-        // --- دوال محاكي البكالوريا الجديدة ---
         function startExam(title, mins, link) {
             const totalExamTime = mins * 60;
             let remain = totalExamTime;
@@ -438,10 +550,23 @@
         function renderTasks() { document.getElementById('todayTasks').innerHTML = JSON.parse(localStorage.getItem('tasks') || "[]").map((t, i) => `<div style="display:flex; justify-content:space-between; background:#f0fdf4; padding:12px; border-radius:12px; margin-bottom:8px; border-right:4px solid var(--success);"><span>✅ ${t}</span><button onclick="deleteTask(${i})" style="background:#fee2e2; color:#ef4444; border:none; padding:5px 10px; border-radius:8px; cursor:pointer; font-weight:bold;">حذف</button></div>`).join(''); }
 
         function sendBot(m) { fetch(`https://api.telegram.org/bot${CFG.token}/sendMessage`, { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({ chat_id: CFG.chat, text: m }) }); }
-        function sendConsult() { const m = document.getElementById('consultMsg').value; if(!m) return; sendBot(`💬 استشارة من: ${localStorage.getItem('user')||'طالب'}\n📝 السؤال: ${m}`); alert("تم الإرسال للأستاذ نوفل!"); document.getElementById('consultMsg').value = ''; }
+        
+        function sendConsult() { 
+            const m = document.getElementById('consultMsg').value; 
+            const l = document.getElementById('consultLink').value; 
+            if(!m) return; 
+            
+            let fullMsg = `💬 استشارة من: ${localStorage.getItem('user')||'طالب'}\n📝 السؤال: ${m}`;
+            if(l) fullMsg += `\n🔗 حساب التواصل: ${l}`; 
+            
+            sendBot(fullMsg); 
+            alert("تم الإرسال للأستاذ نوفل!"); 
+            document.getElementById('consultMsg').value = ''; 
+            document.getElementById('consultLink').value = ''; 
+        }
+
         function uploadPhoto(inp) { if (!inp.files.length) return; const fd = new FormData(); fd.append('chat_id', CFG.chat); fd.append('photo', inp.files[0]); fd.append('caption', `📸 واجب من: ${localStorage.getItem('user')||'طالب'}`); fetch(`https://api.telegram.org/bot${CFG.token}/sendPhoto`, { method: 'POST', body: fd }).then(r=>r.json()).then(d=> { if(d.ok) alert("✅ تم إرسال الواجب!"); else alert("⚠️ فشل الإرسال!"); }); }
 
-        // المصحف كاملاً 114 سورة
         const fullSurahNames = [
             "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
             "هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
