@@ -257,6 +257,12 @@
 
     <div id="p-lessons" class="page">
         <div class="card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+            
+            <h3 style="color: var(--primary); text-align: center; margin-bottom: 20px;">⏱️ جلسات المذاكرة المركزة</h3>
+            <div id="subsMenu" style="margin-bottom: 30px;"></div> 
+
+            <hr style="border: 1px dashed #cbd5e1; margin-bottom: 25px;">
+
             <h3 style="color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 1.4rem;">📚 مكتبة الدروس الشاملة</h3>
             
             <h3 class="category-title" style="color: var(--accent); border-bottom-color: var(--accent);">🎥 شروحات الفيديو (أونلاين)</h3>
@@ -267,35 +273,6 @@
                         onclick="playVideo('https://drive.google.com/file/d/1bmsocWZBmQBivI-LDM-haHWWkrzKeleD/preview')">
                     شاهد الفيديو مباشرة 📺
                 </button>
-            </div>
-
-            <h3 class="category-title">🌍 اللغات الأجنبية</h3>
-            <div class="lesson-card">
-                <h4>شرح مفصل: النص التاريخي (فرنسية)</h4>
-                <p>شرح دقيق لمنهجية التعامل مع النص التاريخي وكيفية استخراج الأفكار.</p>
-                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-3-/', '_blank')">افتح الدرس 🔗</button>
-            </div>
-            <div class="lesson-card">
-                <h4>كلمات ومصطلحات النص التاريخي</h4>
-                <p>أهم الكلمات المفتاحية للتمكن من فهم النص والإجابة على الأسئلة.</p>
-                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/les-mots/', '_blank')">افتح الدرس 🔗</button>
-            </div>
-            <div class="lesson-card">
-                <h4>الوحدة الأولى (إنجليزي) للشعب العلمية</h4>
-                <p>مراجعة شاملة ومكثفة للوحدة الأولى في اللغة الإنجليزية.</p>
-                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/englais1/', '_blank')">افتح الدرس 🔗</button>
-            </div>
-
-            <h3 class="category-title">🤔 الفلسفة</h3>
-            <div class="lesson-card">
-                <h4>منهجية المقارنة (العلم والفلسفة)</h4>
-                <p>شرح منهجية المقارنة مع تطبيق مباشر على مقالة العلم والفلسفة.</p>
-                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-4/', '_blank')">افتح الدرس 🔗</button>
-            </div>
-            <div class="lesson-card">
-                <h4>المنهجية الجدلية (قيمة الفلسفة)</h4>
-                <p>خطوات المنهجية الجدلية بالتفصيل مع تطبيق على مقالة قيمة الفلسفة.</p>
-                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-6/', '_blank')">افتح الدرس 🔗</button>
             </div>
 
             <h3 class="category-title">📖 الأدب العربي</h3>
@@ -314,6 +291,99 @@
                 <p>مواضيع مقترحة وشاملة في الأدب العربي لاختبار مستواك.</p>
                 <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/arabic-exames/', '_blank')">افتح الدرس 🔗</button>
             </div>
+            <div class="lesson-card">
+                <h4>درس: الشعر الحر والاجتماعي</h4>
+                <p>ملخص شامل لخصائص ومميزات النوعين.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/arab4/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>موضوع: الشعر الاجتماعي</h4>
+                <p>موضوع مقترح للتدرب على منهجية تحليل الشعر الاجتماعي.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('الشعر الاجتماعي', 120, 'https://nfel9617-alt.github.io/test-arabe/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+            <div class="lesson-card">
+                <h4>موضوع: الشعر الحر</h4>
+                <p>تطبيقات مباشرة وموضوع مقترح في وحدة الشعر الحر.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('الشعر الحر', 120, 'https://nfel9617-alt.github.io/arab-sujet/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+
+            <h3 class="category-title" style="border-bottom-color: #3b82f6; color: #1e40af;">⚡ العلوم الفيزيائية والرياضيات</h3>
+            <div class="lesson-card" style="border-right-color: #3b82f6;">
+                <h4>ملخص: وحدة الكهرباء RL</h4>
+                <p>ملخص شامل لجميع قوانين وأفكار الوشيعة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfel9617-alt.github.io/Circuit-RL/', '_blank')">افتح الملخص 🔗</button>
+            </div>
+            <div class="lesson-card" style="border-right-color: #3b82f6;">
+                <h4>ملخص: وحدة الكهرباء RC</h4>
+                <p>شرح مفصل للمكثفة والقوانين الأساسية.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfel9617-alt.github.io/circuit-RC/', '_blank')">افتح الملخص 🔗</button>
+            </div>
+            <div class="lesson-card" style="border-right-color: #3b82f6;">
+                <h4>موضوع شامل: العلوم الفيزيائية</h4>
+                <p>موضوع مقترح للتدريب العام في الفيزياء.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('موضوع الفيزياء', 180, 'https://nfel9617-alt.github.io/-/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+            <div class="lesson-card" style="border-right-color: #f59e0b;">
+                <h4>ملخص: وحدة الاحتمالات (رياضيات)</h4>
+                <p>كل ما تحتاجه للتمكن من الاحتمالات.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfel9617-alt.github.io/posibiliti', '_blank')">افتح الملخص 🔗</button>
+            </div>
+
+            <h3 class="category-title" style="border-bottom-color: #10b981; color: #065f46;">🕋 العلوم الإسلامية</h3>
+            <div class="lesson-card" style="border-right-color: #10b981;">
+                <h4>موضوع مقترح (1)</h4>
+                <p>اختبر معلوماتك في الشريعة عبر هذا النموذج.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('علوم إسلامية 1', 90, 'https://nfel9617-alt.github.io/islamic-test/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+            <div class="lesson-card" style="border-right-color: #10b981;">
+                <h4>موضوع مقترح (ممتاز)</h4>
+                <p>نموذج شامل ومنظم بدقة عالية جداً للتدريب النهائي.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('علوم إسلامية ممتاز', 90, 'https://nfel9617-alt.github.io/Sujet-islamique/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+
+            <h3 class="category-title">🌍 اللغات الأجنبية</h3>
+            <div class="lesson-card">
+                <h4>شرح مفصل: النص التاريخي (فرنسية)</h4>
+                <p>شرح دقيق لمنهجية التعامل مع النص التاريخي وكيفية استخراج الأفكار.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-3-/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>كلمات ومصطلحات النص التاريخي</h4>
+                <p>أهم الكلمات المفتاحية للتمكن من فهم النص والإجابة على الأسئلة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/les-mots/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>الوحدة الأولى (إنجليزي) للشعب العلمية</h4>
+                <p>مراجعة شاملة ومكثفة للوحدة الأولى في اللغة الإنجليزية.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/englais1/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>موضوع: الوحدة الأولى (إنجليزي)</h4>
+                <p>تدريب مباشر على موضوع يخص المحور الأول.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('لغة إنجليزية', 120, 'https://nfel9617-alt.github.io/test-englais/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+            <div class="lesson-card">
+                <h4>موضوع شامل: اللغة الفرنسية</h4>
+                <p>موضوع مقترح للتدرب على الفرنسية تحت ضغط الوقت.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('لغة فرنسية', 120, 'https://nfel9617-alt.github.io/sujet-francais-bac/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
+
+            <h3 class="category-title">🤔 الفلسفة</h3>
+            <div class="lesson-card">
+                <h4>منهجية المقارنة (العلم والفلسفة)</h4>
+                <p>شرح منهجية المقارنة مع تطبيق مباشر على مقالة العلم والفلسفة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-4/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>المنهجية الجدلية (قيمة الفلسفة)</h4>
+                <p>خطوات المنهجية الجدلية بالتفصيل مع تطبيق على مقالة قيمة الفلسفة.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-6/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>موضوع مقترح: فلسفة</h4>
+                <p>موضوع لاختبار قدراتك في كتابة المقالة الفلسفية.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('فلسفة', 180, 'https://nfel9617-alt.github.io/philo/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
 
             <h3 class="category-title">🗺️ الاجتماعيات والهندسة</h3>
             <div class="lesson-card">
@@ -326,7 +396,13 @@
                 <p>شرح وملخص دقيق لدروس المنشأ العلوي لتلاميذ الهندسة المدنية.</p>
                 <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/gini-civil/', '_blank')">افتح الدرس 🔗</button>
             </div>
+            <div class="lesson-card">
+                <h4>موضوع شامل إضافي: اجتماعيات</h4>
+                <p>موضوع آخر للتدرب على منهجية التاريخ والجغرافيا.</p>
+                <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('اجتماعيات', 120, 'https://nfel9617-alt.github.io/histoir-jeo-exame/')">بدء الموضوع بالوقت ⏱️</button>
+            </div>
         </div>
+    </div>
     </div>
 
     <div id="p-ramadan" class="page">
