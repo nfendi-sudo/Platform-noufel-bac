@@ -268,7 +268,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
     </div>
 
-    <div id="p-lessons" class="page">
+ <div id="p-lessons" class="page">
         <div class="card" style="background: transparent; border: none; box-shadow: none; padding: 0;">
             
             <h3 style="color: var(--primary); text-align: center; margin-bottom: 20px;">⏱️ جلسات المذاكرة المركزة</h3>
@@ -321,6 +321,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
 
             <h3 class="category-title" style="border-bottom-color: #3b82f6; color: #1e40af;">⚡ العلوم الفيزيائية والرياضيات</h3>
+            <div class="lesson-card" style="border-right-color: #f59e0b;">
+                <h4>درس: الدوال الأصلية (رياضيات)</h4>
+                <p>شرح مفصل لمحور الدوال الأصلية وحساب التكامل.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfel9617-alt.github.io/dwal-aslya/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card" style="border-right-color: #3b82f6;">
+                <h4>ملخص: وحدة الأحماض والأسس</h4>
+                <p>شرح مفصل لدرس الأحماض والأسس في الكيمياء.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfel9617-alt.github.io/ahmad-w-oss/', '_blank')">افتح الملخص 🔗</button>
+            </div>
             <div class="lesson-card" style="border-right-color: #3b82f6;">
                 <h4>ملخص: وحدة الكهرباء RL</h4>
                 <p>ملخص شامل لجميع قوانين وأفكار الوشيعة.</p>
@@ -383,6 +393,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
             <h3 class="category-title">🤔 الفلسفة</h3>
             <div class="lesson-card">
+                <h4>مقالة الفرضية (استقصاء وجدل)</h4>
+                <p>مقالة الفرضية منظمة حسب منهجيتي الاستقصاء بالوضع والجدل.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/philo-/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
+                <h4>واجب: مقالة العنف والتسامح</h4>
+                <p>تطبيق عملي وواجب لمقالة العنف والتسامح.</p>
+                <button class="btn btn-lesson" onclick="window.open('https://nfel9617-alt.github.io/test-philo/', '_blank')">افتح الدرس 🔗</button>
+            </div>
+            <div class="lesson-card">
                 <h4>منهجية المقارنة (العلم والفلسفة)</h4>
                 <p>شرح منهجية المقارنة مع تطبيق مباشر على مقالة العلم والفلسفة.</p>
                 <button class="btn btn-lesson" onclick="window.open('https://nfendi-sudo.github.io/model-4/', '_blank')">افتح الدرس 🔗</button>
@@ -415,7 +435,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 <button class="btn btn-lesson" style="background: #10b981;" onclick="startExam('اجتماعيات', 120, 'https://nfel9617-alt.github.io/histoir-jeo-exame/')">بدء الموضوع بالوقت ⏱️</button>
             </div>
         </div>
-    </div>
     </div>
 
     <div id="p-ramadan" class="page">
@@ -520,6 +539,55 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
             </div>
     </div>
+	
+	<div id="p-calculator" class="page">
+        <div class="card">
+            <h3 style="color: var(--primary); text-align: center; margin-bottom: 5px;">🧮 حاسبة معدل البكالوريا</h3>
+            <p style="text-align: center; color: #64748b; font-size: 0.9rem; margin-bottom: 15px;">اختر شعبتك وقم بإدخال علاماتك المتوقعة.</p>
+
+            <select id="streamSelect" class="auth-input" style="font-weight: bold; font-size: 1.1rem; color: var(--primary); text-align: center; margin-bottom: 20px;" onchange="loadStreamSubjects()">
+                <option value="" disabled selected>-- اختر الشعبة --</option>
+                <option value="sciences">علوم تجريبية</option>
+                <option value="math">رياضيات</option>
+                <option value="tech">تقني رياضي</option>
+                <option value="management">تسيير واقتصاد</option>
+                <option value="languages">لغات أجنبية</option>
+                <option value="literature">آداب وفلسفة</option>
+            </select>
+
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 15px; min-width: 300px;">
+                    <thead>
+                        <tr style="background: var(--primary); color: white; font-size: 0.9rem;">
+                            <th style="padding: 10px; border-radius: 0 10px 10px 0; width: 45%;">المادة</th>
+                            <th style="padding: 10px; width: 30%;">العلامة (20)</th>
+                            <th style="padding: 10px; border-radius: 10px 0 0 0; width: 25%;">المعامل</th>
+                        </tr>
+                    </thead>
+                    <tbody id="calcBody">
+                        <tr><td colspan="3" style="text-align: center; padding: 20px; color: #64748b;">يرجى اختيار الشعبة أولاً...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-main" onclick="calculateAverage()" style="width: 100%; background: var(--gold); color: var(--secondary); font-size: 1.1rem;">احسب المعدل 🚀</button>
+
+            <div id="calcResult" style="display: none; text-align: center; padding: 20px; margin-top: 15px; background: #f0fdf4; border: 2px solid var(--success); border-radius: 15px;">
+                <p style="margin: 0; color: #64748b; font-size: 1rem;">معدلك المتوقع هو:</p>
+                <h2 style="margin: 5px 0; color: var(--success); font-size: 2.8rem; font-weight: 900;" id="finalAverage">00.00</h2>
+                <p style="margin: 0; font-weight: bold; font-size: 1.1rem;" id="calcFeedback">ممتاز!</p>
+            </div>
+        </div>
+    </div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
     <nav class="nav-bar">
         <button class="nav-item active" onclick="showP('home', this)"><i>🏠</i><span>الرئيسية</span></button>
@@ -530,6 +598,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <button class="nav-item" onclick="showP('tasks', this)"><i>📝</i><span>المهام</span></button>
         <button class="nav-item" onclick="showP('ramadan', this)"><i>🤲</i><span>إيمانيات</span></button>
         <button class="nav-item" onclick="showP('consult', this)"><i>💬</i><span>استشرني</span></button>
+		<button class="nav-item" onclick="showP('calculator', this)"><i>🧮</i><span>المعدل</span></button>
     </nav>
 
     <script>
@@ -704,6 +773,116 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                 navigator.serviceWorker.register('sw.js').then(reg => console.log('PWA Registered')).catch(err => console.log('PWA Failed', err));
             });
         }
+		// --- دوال حاسبة معدل البكالوريا لجميع الشعب ---
+        const bacStreamsData = {
+            "sciences": [
+                {n: "علوم طبيعية", c: 6}, {n: "فيزياء", c: 5}, {n: "رياضيات", c: 5}, {n: "لغة عربية", c: 3}, 
+                {n: "لغة فرنسية", c: 2}, {n: "لغة إنجليزية", c: 2}, {n: "تاريخ وجغرافيا", c: 2}, 
+                {n: "علوم إسلامية", c: 2}, {n: "فلسفة", c: 2}, {n: "تربية بدنية", c: 1}
+            ],
+            "math": [
+                {n: "رياضيات", c: 7}, {n: "فيزياء", c: 6}, {n: "علوم طبيعية", c: 2}, {n: "لغة عربية", c: 3}, 
+                {n: "لغة فرنسية", c: 2}, {n: "لغة إنجليزية", c: 2}, {n: "تاريخ وجغرافيا", c: 2}, 
+                {n: "علوم إسلامية", c: 2}, {n: "فلسفة", c: 2}, {n: "تربية بدنية", c: 1}
+            ],
+            "tech": [
+                {n: "تكنولوجيا", c: 7}, {n: "رياضيات", c: 6}, {n: "فيزياء", c: 6}, {n: "لغة عربية", c: 3}, 
+                {n: "لغة فرنسية", c: 2}, {n: "لغة إنجليزية", c: 2}, {n: "تاريخ وجغرافيا", c: 2}, 
+                {n: "علوم إسلامية", c: 2}, {n: "فلسفة", c: 2}, {n: "تربية بدنية", c: 1}
+            ],
+            "management": [
+                {n: "تسيير ومحاسبة", c: 6}, {n: "اقتصاد ومناجمنت", c: 5}, {n: "رياضيات", c: 5}, 
+                {n: "تاريخ وجغرافيا", c: 4}, {n: "لغة عربية", c: 3}, {n: "لغة فرنسية", c: 2}, 
+                {n: "لغة إنجليزية", c: 2}, {n: "علوم إسلامية", c: 2}, {n: "فلسفة", c: 2}, {n: "تربية بدنية", c: 1}
+            ],
+            "languages": [
+                {n: "لغة عربية", c: 5}, {n: "لغة أجنبية 3", c: 4}, {n: "لغة فرنسية", c: 5}, 
+                {n: "لغة إنجليزية", c: 5}, {n: "تاريخ وجغرافيا", c: 4}, {n: "فلسفة", c: 2}, 
+                {n: "علوم إسلامية", c: 2}, {n: "رياضيات", c: 2}, {n: "تربية بدنية", c: 1}
+            ],
+            "literature": [
+                {n: "فلسفة", c: 6}, {n: "لغة عربية", c: 6}, {n: "تاريخ وجغرافيا", c: 4}, 
+                {n: "لغة فرنسية", c: 3}, {n: "لغة إنجليزية", c: 3}, {n: "علوم إسلامية", c: 2}, 
+                {n: "رياضيات", c: 2}, {n: "تربية بدنية", c: 1}
+            ]
+        };
+
+        function loadStreamSubjects() {
+            const stream = document.getElementById('streamSelect').value;
+            const tbody = document.getElementById('calcBody');
+            tbody.innerHTML = ''; 
+
+            if(!stream || !bacStreamsData[stream]) return;
+
+            bacStreamsData[stream].forEach(sub => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="padding: 5px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: var(--primary);">${sub.n}</td>
+                    <td style="padding: 5px; border-bottom: 1px solid #e2e8f0;">
+                        <input type="number" class="auth-input mark-input" placeholder="0-20" min="0" max="20" step="0.25" style="margin:0; padding: 8px; text-align: center;">
+                    </td>
+                    <td style="padding: 5px; border-bottom: 1px solid #e2e8f0; text-align:center; font-weight:bold; color:#64748b;">
+                        <span class="coef-val">${sub.c}</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            // إخفاء النتيجة السابقة عند تغيير الشعبة
+            document.getElementById('calcResult').style.display = 'none';
+        }
+
+        function calculateAverage() {
+            let totalPoints = 0;
+            let totalCoefs = 0;
+            const marks = document.querySelectorAll('.mark-input');
+            const coefs = document.querySelectorAll('.coef-val');
+
+            if(marks.length === 0) {
+                alert('⚠️ يرجى اختيار الشعبة أولاً!');
+                return;
+            }
+
+            let hasValidInput = false;
+
+            for(let i=0; i<marks.length; i++) {
+                let m = parseFloat(marks[i].value);
+                let c = parseFloat(coefs[i].innerText);
+                
+                if(!isNaN(m) && m >= 0 && m <= 20) {
+                    totalPoints += (m * c);
+                    totalCoefs += c;
+                    hasValidInput = true;
+                } else if (marks[i].value !== '') {
+                    alert(`⚠️ العلامة المدخلة غير صحيحة. يرجى إدخال أرقام بين 0 و 20 فقط.`);
+                    return;
+                }
+            }
+
+            if(!hasValidInput) {
+                alert('⚠️ يرجى إدخال علامة واحدة على الأقل لحساب المعدل.');
+                return;
+            }
+
+            let avg = (totalPoints / totalCoefs).toFixed(2);
+            document.getElementById('finalAverage').innerText = avg;
+            
+            let resBox = document.getElementById('calcResult');
+            let feedback = document.getElementById('calcFeedback');
+            resBox.style.display = 'block';
+
+            if(avg >= 16) { feedback.innerText = "🌟 امتياز! أداؤك أسطوري!"; resBox.style.borderColor = "var(--success)"; document.getElementById('finalAverage').style.color = "var(--success)"; }
+            else if(avg >= 14) { feedback.innerText = "👏 جيد جداً! أنت في الطريق الصحيح."; resBox.style.borderColor = "var(--primary)"; document.getElementById('finalAverage').style.color = "var(--primary)";}
+            else if(avg >= 12) { feedback.innerText = "👍 جيد! يمكنك رفع المعدل أكثر بقليل من التركيز."; resBox.style.borderColor = "var(--gold)"; document.getElementById('finalAverage').style.color = "var(--gold)";}
+            else if(avg >= 10) { feedback.innerText = "✅ مقبول! البكالوريا مضمونة، لكننا نطمح للأفضل."; resBox.style.borderColor = "#f59e0b"; document.getElementById('finalAverage').style.color = "#f59e0b";}
+            else { feedback.innerText = "🚑 لا تيأس! الجأ لخطة الإنقاذ في المنصة فوراً."; resBox.style.borderColor = "var(--accent)"; document.getElementById('finalAverage').style.color = "var(--accent)"; }
+        }
+		
+		
+		
+		
+		
+		
     </script>
 </body>
 </html>
